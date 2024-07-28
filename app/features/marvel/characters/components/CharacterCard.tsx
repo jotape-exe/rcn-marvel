@@ -1,16 +1,29 @@
 // CharacterCard.jsx
 
 import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { CharacterResponse } from '../types';
-import { Button, Card, H4, Image, Paragraph, XStack, YStack } from 'tamagui';
+import {
+  Button,
+  Card,
+  H3,
+  H4,
+  H5,
+  Image,
+  Paragraph,
+  XStack,
+  YStack,
+} from 'tamagui';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import { Newspaper } from '@tamagui/lucide-icons';
+import { MoreHorizontal, Newspaper } from '@tamagui/lucide-icons';
 import { CharacterModal } from './ChatacterModal';
+import { ModalFlatComic } from '../../comics/components/ModalFlatComic';
+import { FlatList } from 'react-native-gesture-handler';
+import { RowListComic } from '../../comics/components/RowListComic';
 
 type Props = {
   character: CharacterResponse;
@@ -23,6 +36,7 @@ export const CharacterCard = ({ character }: Props) => {
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [modalVisible, setModalVisible] = useState(false); // Estado do modal
+  const [modalComicVisible, setModalComicVisible] = useState(false); // Estado do modal
 
   const handlePress = () => {
     if (isExpanded) {
@@ -47,6 +61,22 @@ export const CharacterCard = ({ character }: Props) => {
     };
   });
 
+  const ModalItem = ({ item }) => {
+    return (
+      <>
+        <RowListComic comicName={item.name} />
+      </>
+    );
+  };
+
+  const listaVazia = () => {
+    return (
+      <>
+        <H3>Nenhuma COMIC</H3>
+      </>
+    );
+  };
+
   return (
     <>
       <TouchableOpacity style={{ flex: 1, margin: 2 }} onPress={handlePress}>
@@ -67,14 +97,22 @@ export const CharacterCard = ({ character }: Props) => {
                 />
                 <YStack>
                   <H4 style={{ textWrap: 'wrap' }}>{character.name}</H4>
-                  <Button
-                    onPress={handleOpenModal}
-                    size={'$2.5'}
-                    width={'$10'}
-                    icon={Newspaper}
-                  >
-                    Comics
-                  </Button>
+                  <XStack gap={'$2'}>
+                    <Button
+                      onPress={() => setModalComicVisible(true)}
+                      size={'$2.5'}
+                      width={'$10'}
+                      icon={Newspaper}
+                    >
+                      Comics
+                    </Button>
+                    <Button
+                      onPress={handleOpenModal}
+                      size={'$2.5'}
+                      width={'$4'}
+                      iconAfter={MoreHorizontal}
+                    ></Button>
+                  </XStack>
                 </YStack>
               </XStack>
               {isExpanded && <Paragraph>{character.description}</Paragraph>}
@@ -88,6 +126,20 @@ export const CharacterCard = ({ character }: Props) => {
         characterName={character.name}
         characterDescription={character.description}
       />
+      <ModalFlatComic
+        visible={modalComicVisible}
+        onClose={() => setModalComicVisible(false)}
+        characterName={character.name}
+      >
+        <View>
+          <FlatList
+            data={character.comics.items}
+            keyExtractor={(item) => item.name.toUpperCase()}
+            renderItem={ModalItem}
+            ListEmptyComponent={listaVazia}
+          />
+        </View>
+      </ModalFlatComic>
     </>
   );
 };
