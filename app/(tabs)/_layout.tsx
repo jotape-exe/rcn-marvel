@@ -2,33 +2,46 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { MessageCircleCode, Tv } from '@tamagui/lucide-icons';
+import { useTheme } from 'tamagui';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+  const theme = useTheme();
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: useTheme().green10.val,
         headerShown: false,
-      }}>
+        tabBarStyle: {
+          backgroundColor: theme.background.val
+        },
+      }}
+    >
       <Tabs.Screen
-        name="index"
+        name='index'
         options={{
           title: 'Home',
+          tabBarIcon: ({ color, focused }) => <Tv color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name='explore'
+        options={{
+          title: 'Explore',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <TabBarIcon
+              name={focused ? 'code-slash' : 'code-slash-outline'}
+              color={color}
+            />
           ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name='modals'
         options={{
-          title: 'Explore',
+          title: 'Modals',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <MessageCircleCode color={color} />
           ),
         }}
       />

@@ -8,12 +8,12 @@ export default class CharacterService {
   }
 
   async getCharacterById(id: number): Promise<any> {
-    const response = await this.api.get(`/characters/${id}`);
+    const response = await this.api.get(`characters/${id}`);
     return response.data.data.results[0];
   }
 
-  async getCharacters(limit: number = 20, offset: number = 0): Promise<any[]> {
-    const response = await this.api.get('/characters', {
+  async getCharacters(limit: number = 10, offset: number = 0): Promise<any[]> {
+    const response = await this.api.get('characters', {
       params: {
         limit,
         offset,
