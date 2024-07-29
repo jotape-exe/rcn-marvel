@@ -1,6 +1,17 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 
-import { Button, Input, Spinner, useTheme, XStack, YStack } from 'tamagui';
+import {
+  Avatar,
+  Button,
+  H5,
+  H6,
+  Input,
+  Paragraph,
+  Spinner,
+  useTheme,
+  XStack,
+  YStack,
+} from 'tamagui';
 import { Search } from '@tamagui/lucide-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -23,7 +34,7 @@ export default function HomeScreen() {
     { name: 25 },
     { name: 30 },
   ]);
-  const [val, setVal] = useState(0);
+  const [val, setVal] = useState(10);
   const [characters, setCharacters] = useState<CharacterResponse[]>([]);
 
   const handleGetMarvelCharacters = async () => {
@@ -56,9 +67,29 @@ export default function HomeScreen() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaView >
-        <YStack bg={'$background'} padding='$3' gap='$3'>
-          <XStack alignItems='center' gap={'$2'}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <XStack mb={'$8'} mt={'$3'} ml={'$3'} mr={'$3'}>
+          <XStack  ai={'center'} jc={'center'} gap={'$3'} p={'$1.5'} bg={'$gray6'} br={'$10'}>
+            <Avatar circular size='$4'>
+              <Avatar.Image
+                src='https://i.pinimg.com/564x/33/41/92/33419277cb05b5a42ac05ecf8f6b027c.jpg'
+              />
+              <Avatar.Fallback backgroundColor='$blue10' />
+            </Avatar>
+            <YStack mr={'$2.5'}>
+              <H6>Doctor Doom</H6>
+              <Paragraph>Victor Von Doom</Paragraph>
+            </YStack>
+          </XStack>
+        </XStack>
+        <YStack
+          bg={'$gray5'}
+          padding='$4'
+          borderTopEndRadius={'$6'}
+          borderTopStartRadius={'$6'}
+          style={{ height: '90%' }}
+        >
+          <XStack alignItems='center' gap={'$1'}>
             <Input
               onChangeText={(text) => setTermo(text)}
               flex={1}
@@ -83,15 +114,14 @@ export default function HomeScreen() {
               }
             />
           </XStack>
-          <View>
-            <FlatList
-              data={characters}
-              renderItem={CharacterItem}
-              keyExtractor={(item) => item.id.toString()}
-              ListEmptyComponent={listaVazia}
-              style={{ marginBottom: 124 }}
-            />
-          </View>
+
+          <FlatList
+            style={{ marginTop: 5 }}
+            data={characters}
+            renderItem={CharacterItem}
+            keyExtractor={(item) => item.id.toString()}
+            ListEmptyComponent={listaVazia}
+          />
         </YStack>
       </SafeAreaView>
     </GestureHandlerRootView>

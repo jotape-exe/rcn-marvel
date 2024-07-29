@@ -7,7 +7,7 @@ import { Stack } from 'expo-router';
 import { useColorScheme } from 'react-native';
 import { TamaguiProvider, Theme, useTheme } from 'tamagui';
 import { useFonts } from 'expo-font';
-import { tamaguiConfig } from '../tamagui.config';
+import { tamaguiConfig } from '@/tamagui.config';
 import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 
@@ -33,8 +33,12 @@ export default function RootLayout() {
 
   return (
     <TamaguiProvider config={tamaguiConfig}>
-      <StatusBar style='light' backgroundColor={tamaguiConfig.themes.dark.background.val} />
-      <Theme name='dark'>
+      {
+        /*
+        <StatusBar style='light' backgroundColor={tamaguiConfig.themes.dark.background.val} />
+        */
+      }
+      <Theme name='light'>
         <Stack>
           <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
           <Stack.Screen name='+not-found' />
