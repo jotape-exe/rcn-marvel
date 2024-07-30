@@ -1,7 +1,12 @@
 // CharacterCard.jsx
 
 import React, { useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet,
+  TouchableNativeFeedback,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { CharacterResponse } from '../types';
 import {
   Button,
@@ -20,10 +25,10 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { MoreHorizontal, Newspaper } from '@tamagui/lucide-icons';
-import { CharacterModal } from './ChatacterModal';
 import { ModalFlatComic } from '../../comics/components/ModalFlatComic';
 import { FlatList } from 'react-native-gesture-handler';
 import { RowListComic } from '../../comics/components/RowListComic';
+import { CharacterModal } from './ChatacterModal';
 
 type Props = {
   character: CharacterResponse;
@@ -37,6 +42,7 @@ export const CharacterCard = ({ character }: Props) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [modalVisible, setModalVisible] = useState(false); // Estado do modal
   const [modalComicVisible, setModalComicVisible] = useState(false); // Estado do modal
+  const [rippleOverflow, setRippleOverflow] = useState(false);
 
   const handlePress = () => {
     if (isExpanded) {
@@ -45,6 +51,7 @@ export const CharacterCard = ({ character }: Props) => {
       height.value = withSpring(expandedHeight);
     }
     setIsExpanded(!isExpanded);
+    setRippleOverflow(!rippleOverflow);
   };
 
   const handleOpenModal = () => {
@@ -77,10 +84,13 @@ export const CharacterCard = ({ character }: Props) => {
     );
   };
 
+
+
   return (
-    <>
-      <TouchableOpacity style={{ flex: 1, margin: 2 }} onPress={handlePress}>
-        <Card style={{ padding: 4 }} bordered>
+    <View style={styles.container}>
+
+      <Card bordered>
+        <TouchableNativeFeedback style={{ padding: 4 }} onPress={handlePress}>
           <Animated.View
             style={[{ flex: 1, padding: 2, flexBasis: 0 }, animatedStyle]}
           >
@@ -118,8 +128,9 @@ export const CharacterCard = ({ character }: Props) => {
               {isExpanded && <Paragraph>{character.description}</Paragraph>}
             </YStack>
           </Animated.View>
-        </Card>
-      </TouchableOpacity>
+        </TouchableNativeFeedback>
+      </Card>
+
       <CharacterModal
         visible={modalVisible}
         onClose={handleCloseModal}
@@ -140,6 +151,13 @@ export const CharacterCard = ({ character }: Props) => {
           />
         </View>
       </ModalFlatComic>
-    </>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    borderRadius: 14,
+    overflow: 'hidden',
+  },
+});

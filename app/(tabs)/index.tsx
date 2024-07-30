@@ -18,10 +18,10 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { characterService } from '../di/marvel';
 import { useState } from 'react';
 import { CharacterCard } from '../features/marvel/characters/components/CharacterCard';
-import characterslist from '@/app/mock/characterslist.json';
 import { CharacterResponse } from '../features/marvel/characters/types';
 import { EmptyListCard } from '../features/marvel/characters/components/EmptyListCard';
 import { SelectLimit } from '../features/commom/components/Select';
+
 
 export default function HomeScreen() {
   const [termo, setTermo] = useState('');
@@ -52,7 +52,7 @@ export default function HomeScreen() {
   const CharacterItem = ({ item }) => {
     return (
       <>
-        <CharacterCard character={item} />
+          <CharacterCard character={item} />
       </>
     );
   };
@@ -69,11 +69,16 @@ export default function HomeScreen() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaView style={{ flex: 1 }}>
         <XStack mb={'$8'} mt={'$3'} ml={'$3'} mr={'$3'}>
-          <XStack  ai={'center'} jc={'center'} gap={'$3'} p={'$1.5'} bg={'$gray6'} br={'$10'}>
+          <XStack
+            ai={'center'}
+            jc={'center'}
+            gap={'$3'}
+            p={'$1.5'}
+            bg={'$gray6'}
+            br={'$10'}
+          >
             <Avatar circular size='$4'>
-              <Avatar.Image
-                src='https://i.pinimg.com/564x/33/41/92/33419277cb05b5a42ac05ecf8f6b027c.jpg'
-              />
+              <Avatar.Image src='https://i.pinimg.com/564x/33/41/92/33419277cb05b5a42ac05ecf8f6b027c.jpg' />
               <Avatar.Fallback backgroundColor='$blue10' />
             </Avatar>
             <YStack mr={'$2.5'}>
